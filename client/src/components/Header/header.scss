@@ -1,0 +1,8 @@
+@import "../../index.scss";
+
+.header {  
+    min-height: 5vh;
+    background-color: $bgColorMain; 
+    border-radius: 15px;
+    border-bottom-left-radius: 0px; 
+}
