@@ -1,8 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";    
-import { act } from "react-dom/test-utils";
- // {project: "Входящие", id: "incomming",  archive: false, deleted: false , weight: -1}, 
-    // {project: "Архив",  id: "archive", archive: true, deleted: false, weight:10}, 
-    // {project: "Корзина", id: "deleted", archive: false, deleted: true, weight: 10}
+import { createSlice, PayloadAction, createAsyncThunk, AnyAction } from "@reduxjs/toolkit";  
+
 export const filters = {
   filter: "incomming",
 };
@@ -41,7 +38,7 @@ export const fetchProjects = createAsyncThunk<Project[], void, {rejectValue: str
   return data;
 });
 
-export const addProject = createAsyncThunk<Project, Project, {rejectValue: string}>("todos/addProject", async ({project, id, archive, deleted, weight}, {rejectWithValue}) => {
+export const addProject = createAsyncThunk<Project, Project, {rejectValue: string}>("todos/addProject", async ({project, id, archive,  deleted,  weight, }, {rejectWithValue}) => {
   const newProject = {
     project,
     id,
@@ -52,10 +49,9 @@ export const addProject = createAsyncThunk<Project, Project, {rejectValue: strin
   const response = await fetch(`http://localhost:5000/projects/add`, {
     method: "POST",
     headers: {
-      'Content-Type': 'application/json'
-    },
-    // body: JSON.stringify(newProject)  
-    body:  "text-text"
+      'Content-Type': 'application/json', 
+    }, 
+    body: JSON.stringify(newProject)   
   });
 
   if(!response.ok) {
@@ -63,6 +59,90 @@ export const addProject = createAsyncThunk<Project, Project, {rejectValue: strin
   }
   
   return (await response.json()) as Project; 
+});
+
+
+export const changeProjectTitle = createAsyncThunk<{project:string, id:string }, {project:string, id:string }, {rejectValue: string}>("todos/changeProjectTitle", 
+async ({project, id }, {rejectWithValue}) => {
+  const response = await fetch(`http://localhost:5000/projects/change`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json', 
+    }, 
+    body: JSON.stringify({ project, id })   
+  });
+ 
+  if(!response.ok) {
+    return rejectWithValue("cant change project. Server Error")
+  }
+   
+  return (await response.json()) as Project;  
+});
+
+export const delProject = createAsyncThunk<string, string, {rejectValue: string}>("todos/delProject", async (id, {rejectWithValue}) => {
+   
+  const response = await fetch(`http://localhost:5000/projects/delete`, {
+    method: "POST", 
+    headers: {
+      'Content-Type': 'application/json', 
+    }, 
+    body: JSON.stringify({id}),
+  });
+
+  if(!response.ok) {
+    return rejectWithValue("cant add new project. Server Error")
+  } 
+  return id
+});
+
+export const fetchTasks = createAsyncThunk<Todo[], void, {rejectValue: string}> ("todos/fetchTasks", async (_,{ rejectWithValue}) => {
+  const response = await fetch(`http://localhost:5000/tasks/get`)
+  if(!response.ok) {
+    return rejectWithValue(`server error`)
+  }
+  const data = await response.json();
+  return data;
+});
+
+export const addTask = createAsyncThunk<Todo, Todo, {rejectValue: string}>("todos/addTask", async ({id, title, status, project, archive, deleted}, {rejectWithValue}) => {
+  const newTask = {
+    id,
+    title,
+    status,
+    project,
+    archive, 
+    deleted
+  }
+  const response = await fetch(`http://localhost:5000/tasks/add`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json', 
+    }, 
+    body: JSON.stringify(newTask)   
+  });
+
+  if(!response.ok) {
+    return rejectWithValue("cant add new project. Server Error")
+  }
+  
+  return (await response.json()) as Todo; 
+});
+
+export const changeTask = createAsyncThunk<Todo, Todo, {rejectValue: string}>("todos/changeTask", async ({id, title, status, project, archive, deleted }, {rejectWithValue}) => { 
+  
+  const response = await fetch(`http://localhost:5000/tasks/change`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json', 
+    }, 
+    body: JSON.stringify({id, title, status, project, archive, deleted })   
+  });
+
+  if(!response.ok) {
+    return rejectWithValue("cant add new project. Server Error")
+  }
+  
+  return (await response.json()) as Todo; 
 });
 
 
@@ -77,35 +157,31 @@ const initialState : TodosState = {
 export const todoSlice = createSlice({
   name: "todos",
   initialState,
-  reducers: {
-    updateProjects: (state, action: PayloadAction<{status: boolean}>)=>{
-      if (action.payload.status === true) {
-      }
-},
-    addTodo: (state, action: PayloadAction<{id:string, title: string, status: string, project: string, archive: boolean, deleted: boolean}>) => {
-      state.list.push({
-        id: action.payload.id,
-        title: action.payload.title,
-        status: action.payload.status,
-        project: action.payload.project,
-        archive: action.payload.archive,
-        deleted: action.payload.deleted,
-    });
-    },
+  reducers: { 
+    // addTodo: (state, action: PayloadAction<{id:string, title: string, status: string, project: string, archive: boolean, deleted: boolean}>) => {
+    //   state.list.push({
+    //     id: action.payload.id,
+    //     title: action.payload.title,
+    //     status: action.payload.status,
+    //     project: action.payload.project,
+    //     archive: action.payload.archive,
+    //     deleted: action.payload.deleted,
+    // });
+    // },
     changeTodoTitle: (state, action: PayloadAction<{id:string, title: string}>) => { 
      const currentTask = state.list.find(task => task.id === action.payload.id)
      if (currentTask){
        currentTask.title = action.payload.title;
      }
     },
-    changeTodoStatus: (state,action: PayloadAction<{id:string, status: string, archive: boolean, deleted:boolean}>) => {
-      const currentTask = state.list.find(task => task.id === action.payload.id) 
-      if(currentTask){ 
-          currentTask.archive = action.payload.archive;
-          currentTask.deleted = action.payload.deleted;  
-          currentTask.status = action.payload.status; 
-      }  
-    }, 
+    // changeTodoStatus: (state,action: PayloadAction<{id:string, status: string, archive: boolean, deleted:boolean}>) => {
+    //   const currentTask = state.list.find(task => task.id === action.payload.id) 
+    //   if(currentTask){ 
+    //       currentTask.archive = action.payload.archive;
+    //       currentTask.deleted = action.payload.deleted;  
+    //       currentTask.status = action.payload.status; 
+    //   }  
+    // }, 
     changeTodoProjext: (state,action: PayloadAction<{id:string, project: string}>) => {
       const currentTask = state.list.find(task => task.id === action.payload.id)
       if(currentTask){
@@ -124,9 +200,9 @@ export const todoSlice = createSlice({
     //     weight: action.payload.weight,
     //   })
     // },
-    deleteProject(state,action: PayloadAction<{id: string}>) {
-     state.projects = state.projects.filter(project => project.id !== action.payload.id);
-    },
+    // deleteProject(state,action: PayloadAction<{id: string}>) {
+    //  state.projects = state.projects.filter(project => project.id !== action.payload.id);
+    // },
 
     changeProjectName(state, action: PayloadAction<{id: string, project:string }>) {
       let currentProject = state.projects.find(project => project.id === action.payload.id); 
@@ -151,9 +227,40 @@ export const todoSlice = createSlice({
       .addCase(addProject.fulfilled, (state, action)=> {
         state.projects.push(action.payload)
       })
+      .addCase(delProject.fulfilled, (state,action) => {
+        state.projects = state.projects.filter(project => project.id !== action.payload);
+      })
+      .addCase(changeProjectTitle.fulfilled, (state, action) => { 
+        let currentProject = state.projects.find(project => project.id === action.payload.id);  
+        if (currentProject){
+          currentProject.project = action.payload.project; 
+        }
+      })
+      
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.list = action.payload;
+      }) 
+      .addCase(addTask.fulfilled, (state, action) => { 
+        state.list.push(action.payload)
+      })
+      .addCase(changeTask.fulfilled, (state, action)=> { 
+        // let currentTask = state.list.find(task => task.id === action.payload.id) 
+        // if(currentTask){ 
+        //     currentTask = action.payload;
+        // }   
+      })
+ 
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
   },  
    
 });
 
-export const { addTodo, changeTodoTitle, changeTodoStatus, changeTodoProjext, filterBy,  deleteProject, changeProjectName } = todoSlice.actions;
+export const { changeTodoTitle, changeProjectName,  changeTodoProjext, filterBy    } = todoSlice.actions;
 export default todoSlice.reducer;
+
+function isError(action: AnyAction) {
+  return action.type.endsWith('rejected')
+}

@@ -1,18 +1,22 @@
 import React  from 'react'
 import "./popup.scss"
 import { useAppDispatch, useAppSelector } from 'hook'
-import {changeTodoStatus} from "../../feauters/todo/todo.slice"
+import {changeTask} from "../../feauters/todo/todo.slice"
 
 interface PopupProps {
   trigger: boolean, 
-  className?: string,
-  id: string,
-  status: string, 
+  className?: string, 
   children?: any,  
   anchorPoint: {
     x:number,
     y:number,
   }, 
+  id: string,
+  title: string,
+  status: string,
+  project: string,
+  archive: boolean,
+  deleted: boolean,  
   onHandlePopup: () => void
 }
  
@@ -25,10 +29,31 @@ export const Popup: React.FC <PopupProps> = (props) => {
     const currentObject = todo.find(item => item.id === props.id); 
     if (event === "archive" || event === "deleted") { 
       event === "archive" 
-      ?dispatch(changeTodoStatus({id: props.id, status: props.status, archive: !currentObject?.archive,deleted: false})) 
-      :dispatch(changeTodoStatus({id: props.id, status: props.status, archive: false, deleted: !currentObject?.deleted})) 
+      ?dispatch(changeTask({
+        id: props.id, 
+        status: props.status, 
+        archive: !currentObject?.archive, 
+        deleted: false,
+        title: props.title,
+        project: props.project
+      })) 
+      :dispatch(changeTask({
+        id: props.id, 
+        status: props.status, 
+        archive: false, 
+        deleted: !currentObject?.deleted,
+        title: props.title,
+        project: props.project
+      })) 
     } else {
-      dispatch(changeTodoStatus({id: props.id, status: event, archive: false, deleted: false})) 
+      dispatch(changeTask({
+        id: props.id, 
+        status: event, 
+        archive: false, 
+        deleted: false, 
+        title: props.title,
+        project: props.project
+      })) 
     } 
     props.onHandlePopup();
   } 

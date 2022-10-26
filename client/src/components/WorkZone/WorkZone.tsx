@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./workzone.scss";
 import { useAppDispatch, useAppSelector } from "hook";
-import { addTodo } from "feauters/todo/todo.slice";
+import { addTask } from "feauters/todo/todo.slice";
 import { v4 as uuidv4 } from "uuid";
-import { Task } from "components/Task/Task";   
+import { Task } from "components/Task/Task";    
 
 type Todo = {
   id: string,
@@ -36,9 +36,9 @@ export const WorkZone  = () => {
       archive: false,
       deleted: false,
     }; 
-    dispatch(addTodo(todo));
+    dispatch(addTask(todo));
   };
-  console.log(todos)
+  
   return (
     <div className="workzone">
       <div className="tasks">
@@ -48,15 +48,15 @@ export const WorkZone  = () => {
             {todos.map((el: Todo) => {  
               if (el.status === "inPlan" && el.project === filter && !el.archive && !el.deleted ) {
                 return (
-                  <Task key={el.id} id={el.id} title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               } else if (filter === "archive" && el.status === "inPlan" && el.archive){
                 return (
-                  <Task key={el.id} id={el.id} title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               } else if (filter === "deleted" && el.status === "inPlan" && el.deleted){
                 return (
-                  <Task key={el.id} id={el.id}  title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted} />
                 )
               }
             })}
@@ -80,15 +80,15 @@ export const WorkZone  = () => {
             {todos.map((el: Todo) => { 
               if (el.status === "inProcess" && el.project === filter && !el.archive && !el.deleted ) {
                 return (
-                  <Task key={el.id} id={el.id} title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               } else if (filter === "archive" && el.status === "inProcess" && el.archive){
                 return (
-                  <Task key={el.id} id={el.id} title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted} />
                 )
               } else if (filter === "deleted" && el.status === "inProcess" && el.deleted){
                 return (
-                  <Task key={el.id} id={el.id}  title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               }
             })}
@@ -107,15 +107,15 @@ export const WorkZone  = () => {
             {todos.map((el: Todo) => { 
               if (el.status === "done" && el.project === filter && !el.archive && !el.deleted ) {
                 return (
-                  <Task key={el.id} id={el.id} title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               } else if (filter === "archive" && el.status === "done" && el.archive){
                 return (
-                  <Task key={el.id} id={el.id} title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               } else if (filter === "deleted" && el.status === "done" && el.deleted){
                 return (
-                  <Task key={el.id} id={el.id}  title={el.title} status={el.status}  />
+                  <Task key={el.id} id={el.id} title={el.title} status={el.status} project ={el.project} archive={el.archive} deleted= {el.deleted}  />
                 )
               }
             })}

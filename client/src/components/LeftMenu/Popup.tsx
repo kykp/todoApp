@@ -17,8 +17,9 @@ export const Popup: React.FC <PopupProps> = (props) => {
   const [newProjectName, setNewProjectName] = useState("")
   const dispatch = useAppDispatch(); 
  
-  const onHandleCreateNewProject = () => {   
-    dispatch(addProject({ id : v4(), project: newProjectName, archive: false, deleted: false, weight: 0}));
+  const onHandleCreateNewProject = () => { 
+    const newProject = { id : v4(), project: newProjectName, archive: false, deleted: false, weight: 0}  
+    dispatch(addProject(newProject));
     props.onHandlePopup();
     setNewProjectName("")
   }

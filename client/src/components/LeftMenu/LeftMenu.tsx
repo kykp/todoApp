@@ -36,8 +36,7 @@ export const LeftMenu = () => {
   const onHandleLeftMenuProjectsClick = (event: any ) =>{
     setAnchorPoint({ x: event.pageX, y: event.pageY }); 
   }
-
-  console.log(newProjects)
+ 
   return ( 
         <div className='left-menu'>
           <h2>Проекты</h2>  
