@@ -5,9 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "tsc": "tsc",
-    "server": "node dist/server.js",
-    "start":"node dist/server.js" 
+    "start": "node build/server.js",
+    "build": "tsc",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
