@@ -18,11 +18,9 @@ export const WorkZone  = () => {
 
   const filter = useAppSelector(store => store.todo.filters);
   const todos = useAppSelector(store => store.todo.list);
-  const projects = useAppSelector(store => store.todo.projects)
   const dispatch = useAppDispatch();  
 
-
-
+ 
   useEffect(()=>{
     setCurrentPage(filter)
   },[filter]) 
@@ -38,7 +36,7 @@ export const WorkZone  = () => {
     }; 
     dispatch(addTask(todo));
   };
-  
+    
   return (
     <div className="workzone">
       <div className="tasks">

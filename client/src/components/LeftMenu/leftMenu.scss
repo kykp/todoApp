@@ -1,6 +1,6 @@
 @import "../../index.scss";
 
-.left-menu{
+.left-menu {
     width: 100%;
     max-width: 200px;
     background-color: rgb(134, 179, 245);
@@ -96,4 +96,18 @@
     width: 100%;
     border-radius: 5px;
     border: 1px solid black;
+}
+
+@media screen and (max-width: 600px) {
+    .left-menu {
+         display: flex; 
+         flex-direction: column;
+         max-width: 100%;
+         & h2 {
+            display: none;
+         }
+    }
+    .projects-list__pencil-img {
+        width: 3%;
+    }
 }

@@ -1,6 +1,6 @@
 import React, {useState}  from 'react'
 import { useAppDispatch } from 'hook'
-import {changeTodoTitle} from "../../feauters/todo/todo.slice"
+import {changeTask} from "../../feauters/todo/todo.slice"
 import "./task.scss"
 import GambIcon from "../../assets/icons/hamburger.png"
  
@@ -17,6 +17,7 @@ interface Todo {
 
 
 export const Task: React.FC<Todo> = ({ id, title, status, project, archive, deleted } ) => { 
+  const [taskTitle, setTaskTitle] = useState(title)
   const [showPopup, setShowPopup] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
   const dispatch = useAppDispatch(); 
@@ -29,10 +30,14 @@ export const Task: React.FC<Todo> = ({ id, title, status, project, archive, dele
     setShowPopup(!showPopup)
   }
 
-  // const onChangeProjectTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>{
-  //   let newTitle = e.target.value; 
-  //   dispatch(changeProjectTitle({project: newTitle, id, archive, deleted, weight: 0}));
-  // }
+  const onChangeProjectTitle = () =>{  
+    dispatch(changeTask({project , id, archive, deleted, title: taskTitle, status}));
+  }
+
+  const onHandleChangeTitle = (e:any) => {
+    setTaskTitle(e.target.value) 
+  }
+ 
   return (  
     <div className='task-container'>  
       <div className='task-container__header'>
@@ -55,9 +60,10 @@ export const Task: React.FC<Todo> = ({ id, title, status, project, archive, dele
           placeholder= "Ввести заголовок для этой карточки" 
           name="" 
           id={id} 
-          value={title}
-          onChange={(e) => dispatch(changeTodoTitle({title: e.target.value, id: e.currentTarget.id} ))}
-          // onChange={(e)=> onChangeProjectTitle(e)}
+          value={taskTitle} 
+          onChange={(e)=>  onHandleChangeTitle(e)}
+          onMouseLeave={onChangeProjectTitle}
+          onBlur={onChangeProjectTitle}
           cols ={30}
           rows ={3}>
             {title}

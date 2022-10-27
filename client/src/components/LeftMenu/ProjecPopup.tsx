@@ -1,6 +1,6 @@
  import React, {useState} from 'react' 
 import { useAppDispatch } from 'hook'  
-import {delProject, changeProjectTitle, changeProjectName} from "../../feauters/todo/todo.slice"
+import {delProject, changeProjectTitle   } from "../../feauters/todo/todo.slice"
 import "./leftMenu.scss"
 
 interface PopupProps {
@@ -10,7 +10,7 @@ interface PopupProps {
       y:number,
     }, 
     id: string,
-    onHandlePopupProject: () => void
+    onHandlePopupProject: () => void, 
   }
    
 export const ProjecPopup: React.FC <PopupProps> = (props) => {  
@@ -22,12 +22,11 @@ export const ProjecPopup: React.FC <PopupProps> = (props) => {
      dispatch(delProject(props.id));  
      props.onHandlePopupProject();
      setNewProjectName("");
-     setNeedToChangeProjectName(false);
+     setNeedToChangeProjectName(false); 
   }
 
   const onHandleChangeNameProject = () => { 
-    dispatch(changeProjectTitle({project: newProjectName, id: props.id}))
-    dispatch(changeProjectName({project: newProjectName, id: props.id}))
+    dispatch(changeProjectTitle({project: newProjectName, id: props.id})) 
     setNewProjectName("");
     setNeedToChangeProjectName(false); 
     props.onHandlePopupProject();

@@ -1,18 +1,20 @@
-import {useState} from 'react' 
+import {useState, useEffect} from 'react' 
 import { useAppSelector, useAppDispatch } from 'hook' 
 import { filterBy } from 'feauters/todo/todo.slice'
 import { Popup } from './Popup' 
 import { ProjecPopup } from './ProjecPopup'
 import PenImg from "../../assets/icons/hamburger.png"
 import "./leftMenu.scss"
-
-export const LeftMenu = () => {  
+ 
+export const LeftMenu = () => {    
   const [currentProjectId, setCurrentProjectId] = useState("")
   const [activeButton, setActiveButton]=useState("incomming"); 
   const [showPopup, setShowPopup] = useState(false)
   const [showPopupProject, setShowPopupProject] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
-  const projects = useAppSelector(state => state.todo.projects); 
+  const projects = useAppSelector(state => state.todo.projects);  
+  const filter = useAppSelector(state => state.todo.filters);  
+
   const dispatch = useAppDispatch();     
  
   const onHandleCurrentProject = (e: any)=>{  
@@ -31,12 +33,15 @@ export const LeftMenu = () => {
     setShowPopupProject(!showPopupProject)
   } 
 
-  let newProjects = [...projects].sort((a,b)=> a.weight - b.weight);
-  
+  let newProjects = [...projects].sort((a,b)=> a.weight - b.weight); 
   const onHandleLeftMenuProjectsClick = (event: any ) =>{
     setAnchorPoint({ x: event.pageX, y: event.pageY }); 
   }
- 
+  
+  useEffect(() => {
+    setActiveButton(filter)
+  },[filter])
+
   return ( 
         <div className='left-menu'>
           <h2>Проекты</h2>  
@@ -72,10 +77,15 @@ export const LeftMenu = () => {
          
           <button className='button left-menu__button'
             onClick={(event) => onHandleAddNewProject(event)}
-            >Доавить проект 
+            >Добавить проект 
             </button>
             <Popup trigger={showPopup} anchorPoint={anchorPoint} onHandlePopup={onHandlePopup}/>
-            <ProjecPopup trigger={showPopupProject} anchorPoint={anchorPoint} onHandlePopupProject={onHandlePopupProject} id={currentProjectId}/>
+            <ProjecPopup 
+              trigger={showPopupProject}
+              anchorPoint={anchorPoint} 
+              onHandlePopupProject={onHandlePopupProject} 
+              id={currentProjectId} 
+              />
         </div> 
   )
 }

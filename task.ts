@@ -29,8 +29,8 @@ const getTasks = async (req: Request, res: Response) => {
   const changeTask = async (req: Request, res: Response) => {
     const { id, title, status, project, archive, deleted } = req.body;  
     try {
-        await TaskSchema.updateOne({id},{title, status, project, archive, deleted
-        });  
+        await TaskSchema.findOneAndUpdate({id},{$set:{title, status, project, archive, deleted
+        }});  
       res.json();
     } catch (error) { 
       console.log(error);

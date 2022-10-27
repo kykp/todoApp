@@ -57,7 +57,7 @@ export const Popup: React.FC <PopupProps> = (props) => {
     } 
     props.onHandlePopup();
   } 
-  
+    
   return props.trigger ? (
     <div className="popup"  onClick={props.onHandlePopup} >
       <div className="popup-inner" style={{ top: props.anchorPoint.y -5, left: props.anchorPoint.x +20 }}>

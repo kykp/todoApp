@@ -1,6 +1,7 @@
 import express, { Request, Response} from "express";
 
 import ProjetSchema  from "./models/Project.js" 
+import TaskSchema from "./models/Tasks.js"
 
 const projectRouter = express.Router();  
 
@@ -38,9 +39,10 @@ const changeProject = async (req: Request, res: Response) => {
 
 
 const deleteProject = async (req: Request, res: Response) => {
-    const {id} = req.body;   
+    const {id, project} = req.body;   
     try {
       await ProjetSchema.deleteOne({id});
+      await TaskSchema.deleteMany({project: id})
       res.json();
     } catch (error) { 
       console.log(error);
