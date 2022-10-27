@@ -1,5 +1,5 @@
 import React, {useState}  from 'react'
-import { useAppDispatch } from 'hook'
+import { useAppDispatch } from '../../hook'
 import {changeTask} from "../../feauters/todo/todoSlice"
 import "./task.scss"
 import GambIcon from "../../assets/icons/hamburger.png"

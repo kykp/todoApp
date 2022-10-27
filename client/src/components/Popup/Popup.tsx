@@ -1,6 +1,6 @@
 import React  from 'react'
 import "./popup.scss"
-import { useAppDispatch, useAppSelector } from 'hook'
+import { useAppDispatch, useAppSelector } from '../../hook'
 import {changeTask} from "../../feauters/todo/todoSlice"
 
 interface PopupProps {

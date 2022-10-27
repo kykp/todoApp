@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./workzone.scss";
-import { useAppDispatch, useAppSelector } from "hook";
-import { addTask } from "feauters/todo/todoSlice";
+import { useAppDispatch, useAppSelector } from "../../hook";
+import { addTask } from "../../feauters/todo/todoSlice";
 import { v4 as uuidv4 } from "uuid";
-import { Task } from "components/Task/Task";    
+import { Task } from "../../components/Task/Task";    
 
 type Todo = {
   id: string,

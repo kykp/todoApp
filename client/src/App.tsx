@@ -4,7 +4,7 @@ import { Header } from "./components/Header/Header";
 import { LeftMenu } from "./components/LeftMenu/LeftMenu";
 import { WorkZone } from "./components/WorkZone/WorkZone"; 
 import {fetchProjects, fetchTasks} from "./feauters/todo/todoSlice";
-import { useAppDispatch } from "hook";
+import { useAppDispatch } from "./hook";
 
 function App() {
   const dispatch = useAppDispatch();

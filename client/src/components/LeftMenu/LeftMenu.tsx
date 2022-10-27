@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react' 
-import { useAppSelector, useAppDispatch } from 'hook' 
-import { filterBy } from 'feauters/todo/todoSlice'
+import { useAppSelector, useAppDispatch } from '../../hook' 
+import { filterBy } from '../../feauters/todo/todoSlice'
 import { Popup } from './Popup' 
 import { ProjecPopup } from './ProjecPopup'
 import PenImg from "../../assets/icons/hamburger.png"
