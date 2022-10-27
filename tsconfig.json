@@ -101,7 +101,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "*.ts"
+    "*.ts", "client"
   ],
-  "exclude": ["client", "node_modules", ".vscode"]
+  "exclude": [ "node_modules", ".vscode"]
 }
