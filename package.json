@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "tsc": "tsc",
-    "server": "node dist/server.js"
+    "server": "node dist/server.js",
+    "start":"node src/server.js",
+    "postinstall":"tsc"
   },
   "keywords": [],
   "author": "",
