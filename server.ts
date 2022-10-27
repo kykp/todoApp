@@ -3,7 +3,7 @@ import { projectRouter } from "./project.js";
 import { taskRouter } from "./task.js"; 
 import { startBaseMongo } from "./mongoconnect.js";
 import bodyParser from "body-parser";
-const path = require('path');
+import path from 'path';
 
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
