@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import mongoose from "mongoose";
+import * as dotenv from 'dotenv';
+dotenv.config();
+const mongoPassword = process.env.MONGO_PASS;
+const mongoLogin = process.env.MONGO_LOGIN;
 function startBaseMongo() {
     return __awaiter(this, void 0, void 0, function* () {
-        const uri = "mongodb+srv://kykp:VYFFvDBVwrRPnGHr@cluster0.xtwcw.mongodb.net/Users?retryWrites=true&w=majority";
+        const uri = `mongodb+srv://${mongoLogin}:${mongoPassword}@cluster0.xtwcw.mongodb.net/Users?retryWrites=true&w=majority`;
         try {
             console.log("успешное подключение к БД");
             mongoose.connect(uri);
