@@ -5,9 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node dist/server.js",
     "build": "tsc",
-    "postinstall": "npm run build"
+    "postinstall": "npm run dist"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "module-name": "^0.0.1-security",
     "mongodb": "^4.11.0",
     "mongoose": "^6.7.0"
   },

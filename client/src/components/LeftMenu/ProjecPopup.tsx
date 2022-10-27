@@ -1,6 +1,6 @@
  import React, {useState} from 'react' 
 import { useAppDispatch } from 'hook'  
-import {delProject, changeProjectTitle   } from "../../feauters/todo/todo.slice"
+import {delProject, changeProjectTitle   } from "../../feauters/todo/todoSlice"
 import "./leftMenu.scss"
 
 interface PopupProps {

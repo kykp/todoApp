@@ -1,6 +1,6 @@
 import React, {useState}  from 'react' 
 import { useAppDispatch } from 'hook' 
-import {addProject} from "../../feauters/todo/todo.slice"
+import {addProject} from "../../feauters/todo/todoSlice"
 import { v4 } from "uuid";
 import "./leftMenu.scss"
 
